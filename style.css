@@ -46,7 +46,17 @@ video {
   left: 0;
   background-size: cover;
   background-position: center;
+    opacity: 1;
+  transition: opacity 0.5s ease;
   z-index: -1; /* Ensure it stays behind other elements */
+}
+
+#animation.fade-out {
+  opacity: 0;
+}
+
+#animation.fade-in {
+  opacity: 1;
 }
 
 #blackScreen {
@@ -64,6 +74,9 @@ video {
   color: black;
   padding: 20px;
   font-size: 1.2rem;
+    user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none;     /* IE/Edge */
 }
 
 .menu {
