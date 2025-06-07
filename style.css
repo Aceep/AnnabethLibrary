@@ -80,6 +80,9 @@ video {
 }
 
 .menu {
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none;     /* IE/Edge */
   position: absolute;
   top: auto;
   right: 50px;
@@ -134,9 +137,9 @@ video {
 }
 .book-item {
   position: fixed;
-  top: 50%;
+  top: 40%;
   left: 50%;
-  max-width: 200px;      /* taille réduite */
+  max-width: 200px;
   max-height: 300px;
   transform: translate(-50%, -50%);
   border-radius: 8px;
