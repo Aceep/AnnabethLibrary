@@ -1,7 +1,9 @@
 import dialogues from '../data/dialogues.js';
+import bookList from '../data/bookList.js';
+
+const visitedGods = new Set();
 
 // Display an image with  a white div at the bottom
-
 export async function runDialogue(who) {
   const dialogueData = dialogues[who];
   if (!dialogueData) return;
@@ -43,16 +45,100 @@ export async function runDialogue(who) {
   textContent.textContent = dialogueData.lines[dialogueData.lines.length - 1];
 
 
-  if (who !== 'intro') 
-    showGodMenu();
+if (who !== 'intro' && who !== 'owlEnd') {
+  visitedGods.add(who);
+
+  const allGods = [
+    'zeus', 'hera', 'athena', 'poseidon', 'ares',
+    'hephaistos', 'aphrodite', 'demeter', 'apollon',
+    'artemis', 'hermes', 'dionysos', 'hades'
+  ];
+
+  const allVisited = allGods.every(god => visitedGods.has(god));
+  if (allVisited) {
+    await runDialogue('owlEnd');
+    return;
+  }
+
+  showGodMenu();
 }
 
+if (who === 'owlEnd') 
+  await displayBooksList();
+}
+
+async function displayBooksList() {
+  // display the books list in a modal
+  const booksListContainer = document.getElementById('books-list-container');
+  booksListContainer.style.display = 'block';
+  booksListContainer.innerHTML = '';
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
+  modalContent.innerHTML = '<h2>Liste des livres</h2>';
+  const closeButton = document.createElement('button');
+  closeButton.textContent = '✕';
+  closeButton.style.position = 'absolute';
+  closeButton.style.top = '1rem';
+  closeButton.style.right = '1rem';
+  closeButton.style.fontSize = '1.5rem';
+  closeButton.style.color = 'white';
+  closeButton.style.background = 'transparent';
+  closeButton.style.border = 'none';
+  closeButton.style.cursor = 'pointer';
+  closeButton.onclick = () => {
+    booksListContainer.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+  modal.appendChild(closeButton);
+
+  const booksList = document.createElement('ul');
+  for (const [god, books] of Object.entries(bookList)) {
+    const godItem = document.createElement('li');
+    godItem.classList.add('text-white');
+    godItem.textContent = god.toUpperCase();
+    const booksUl = document.createElement('ul');
+    books.forEach(book => {
+      const bookItem = document.createElement('li');
+      bookItem.textContent = book;
+      booksUl.appendChild(bookItem);
+    });
+    godItem.appendChild(booksUl);
+    booksList.appendChild(godItem);
+  }
+  modalContent.appendChild(booksList);
+  modal.appendChild(modalContent);
+  booksListContainer.appendChild(modal);
+  booksListContainer.style.display = 'block';
+  document.getElementById('orientation-overlay').style.display = 'none';
+  document.body.style.overflow = 'hidden';
+  modal.onclick = (event) => {
+    if (event.target === modal) {
+      booksListContainer.style.display = 'none';
+      document.body.style.overflow = ''; 
+    }
+  }
+  document.body.appendChild(booksListContainer);
+}
 
 async function displayBooks(books) {
-  // Créer une image flottante pour la couverture
   const img = document.createElement('img');
   img.classList.add('book-item');
-  document.body.appendChild(img);
+
+img.onclick = (event) => {
+  event.stopPropagation(); 
+  
+  if (img.style.zIndex === '11000') {
+    img.style.zIndex = '9000';
+  } else {
+    img.style.zIndex = '11000';
+  }
+
+};
+
+  const animationContainer = document.getElementById('animation');
+  animationContainer.appendChild(img);
 
   const descriptionBox = document.getElementById('text-content');
 
@@ -60,15 +146,15 @@ async function displayBooks(books) {
     img.src = imgSrc;
     img.alt = description;
 
-    // Vider et afficher la description dans la boîte dialogue principale
     descriptionBox.textContent = '';
     await typeLine(descriptionBox, description);
 
-    // Attendre un clic avant de passer au suivant
+    // restore the image to its original position
+    img.style.zIndex = '9000';
+
     await waitForClick();
   }
 
-  // Nettoyer l'image après affichage de tous les livres
   img.remove();
 }
 
@@ -114,13 +200,22 @@ function waitForClick() {
 }
 
 export function showGodMenu() {
-  const gods = ['zeus', 'hera','athena', 'poseidon', 'ares', 'hephaistos', 'aphrodite', 'demeter', 'apollon', 'artemis', 'hermes', 'dionysos', 'hades'];
+  const gods = [
+    'zeus', 'hera', 'athena', 'poseidon', 'ares',
+    'hephaistos', 'aphrodite', 'demeter', 'apollon',
+    'artemis', 'hermes', 'dionysos', 'hades'
+  ];
+
+  const existingMenu = document.querySelector('.menu');
+  if (existingMenu) existingMenu.remove();
+
   const menu = document.createElement('div');
   menu.classList.add('menu');
 
   gods.forEach((god) => {
     const btn = document.createElement('button');
     btn.textContent = god.toUpperCase();
+    btn.style.whiteSpace = 'nowrap';
     btn.onclick = async () => {
       menu.remove();
       await runDialogue(god);
@@ -129,4 +224,16 @@ export function showGodMenu() {
   });
 
   document.body.appendChild(menu);
+
+  setTimeout(() => {
+    const rect = menu.getBoundingClientRect();
+    const overflowX = rect.right > window.innerWidth;
+    const overflowY = rect.bottom > window.innerHeight;
+
+    if (overflowX || overflowY) {
+      menu.style.maxHeight = '80vh';
+      menu.style.overflowY = 'auto';
+      menu.style.right = '10px';
+    }
+  }, 0);
 }
