@@ -1,8 +1,8 @@
 body, html {
   margin: 0;
   padding: 0;
-  height: 100vh;
-  overflow: hidden;
+  height: auto;
+  overflow: auto;
   background: black;
   display: flex;
   justify-content: center;
@@ -40,8 +40,9 @@ video {
 #animation {
   display: none;
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  overflow-y: auto;
+  width: 100lvw;
+  height: 100lvh;
   top: 0;
   left: 0;
   background-size: cover;
@@ -66,34 +67,67 @@ video {
 
 .dialogue-box {
   position: absolute;
-  bottom: 150px;
   left: 25%;
   width: 50%;
   background: antiquewhite;
-    border-radius: 10px;
+  border-radius: 10px;
   color: black;
   padding: 20px;
   font-size: 1.2rem;
-    user-select: none;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none;     /* IE/Edge */
+  user-select: none;
+  z-index: 10000;
+  -webkit-user-select: none; 
+  -ms-user-select: none;    
+}
+
+
+@media screen and (orientation: landscape) and (max-width: 1000px) {
+  .dialogue-box {
+    bottom: 20px;
+    left: 10%;
+    width: 80%;
+  }
+}
+
+@media screen and (orientation: landscape) and (min-width: 1000px) {
+  .dialogue-box {
+    bottom: 100px;
+    left: 25%;
+    width: 50%;
+  }
 }
 
 .menu {
   user-select: none;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none;     /* IE/Edge */
   position: absolute;
-  top: auto;
-  right: 50px;
+  top: 20px;
+  right: 20px;
   background-color: antiquewhite;
-    padding: 20px;
-    border-radius: 5px;
+  padding: 20px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   z-index: 10;
+  max-width: 90vw;
+  box-sizing: border-box;
 }
+
+@media screen and (orientation: portrait) {
+  .menu {
+    top: 20px;
+    right: 10px;
+    overflow: auto;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .menu {
+    top: 20px;
+    right: 50px;
+  }
+}
+
 
 .menu button {
   padding: 10px 20px;
@@ -112,6 +146,7 @@ video {
 
 #text-content {
   white-space: pre-wrap;
+  z-index: 10000;
 }
 
 .books-container {
@@ -133,7 +168,6 @@ video {
   justify-content: flex-end;
   align-items: center;
   padding: 0;
-  z-index: 10000;
 }
 .book-item {
   position: fixed;
@@ -144,7 +178,55 @@ video {
   transform: translate(-50%, -50%);
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  z-index: 10001;
   background: white;
 }
 
+@media screen and (orientation: portrait) {
+  .rotate-screen-warning {
+    display: flex;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .rotate-screen-warning {
+    display: none;
+  }
+}
+
+#books-list-container {
+  position: fixed;
+  inset: 0; 
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.modal {
+  background-color: #1e1e1e;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.modal-content {
+  color: white;
+  font-family: sans-serif;
+  font-size: 1.2rem;
+}
+
+.modal-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.modal-content li {
+  margin-bottom: 0.5rem;
+}
