@@ -1,6 +1,7 @@
 import dialogues from '../data/dialogues.js';
 import bookList from '../data/bookList.js';
 import { appendClosingButtonToModal } from '../components/closingButton.js';
+import runEnding  from './ending.js';
 
 const visitedGods = new Set();
 
@@ -56,7 +57,7 @@ if (who !== 'intro' && who !== 'owlEnd') {
   ];
 
   const allVisited = allGods.every(god => visitedGods.has(god));
-  if (!allVisited) {
+  if (allVisited) {
     await runDialogue('owlEnd');
     return;
   }
@@ -82,7 +83,8 @@ async function displayBooksList() {
   // Create a close button
   appendClosingButtonToModal(modal, () => {
     booksListContainer.style.display = 'none';
-    document.body.style.overflow = ''; 
+    document.body.style.overflow = '';
+    runEnding();
   }
   );
 
