@@ -1,5 +1,6 @@
 import dialogues from '../data/dialogues.js';
 import bookList from '../data/bookList.js';
+import { appendClosingButtonToModal } from '../components/closingButton.js';
 
 const visitedGods = new Set();
 
@@ -55,7 +56,7 @@ if (who !== 'intro' && who !== 'owlEnd') {
   ];
 
   const allVisited = allGods.every(god => visitedGods.has(god));
-  if (allVisited) {
+  if (!allVisited) {
     await runDialogue('owlEnd');
     return;
   }
@@ -77,21 +78,13 @@ async function displayBooksList() {
   const modalContent = document.createElement('div');
   modalContent.classList.add('modal-content');
   modalContent.innerHTML = '<h2>Liste des livres</h2>';
-  const closeButton = document.createElement('button');
-  closeButton.textContent = '✕';
-  closeButton.style.position = 'absolute';
-  closeButton.style.top = '1rem';
-  closeButton.style.right = '1rem';
-  closeButton.style.fontSize = '1.5rem';
-  closeButton.style.color = 'white';
-  closeButton.style.background = 'transparent';
-  closeButton.style.border = 'none';
-  closeButton.style.cursor = 'pointer';
-  closeButton.onclick = () => {
+  
+  // Create a close button
+  appendClosingButtonToModal(modal, () => {
     booksListContainer.style.display = 'none';
-    document.body.style.overflow = '';
-  };
-  modal.appendChild(closeButton);
+    document.body.style.overflow = ''; 
+  }
+  );
 
   const booksList = document.createElement('ul');
   for (const [god, books] of Object.entries(bookList)) {
@@ -169,11 +162,15 @@ function typeLine(element, text, speed = 30) {
 
     document.addEventListener('click', handler);
 
+    document.getElementById('typing-sound').play();
+  
     const interval = setInterval(() => {
       if (interrupted) {
         element.innerText = text;
         clearInterval(interval);
         document.removeEventListener('click', handler);
+        document.getElementById('typing-sound').pause();
+        document.getElementById('typing-sound').currentTime = 0;
         resolve();
         return;
       }
@@ -184,6 +181,12 @@ function typeLine(element, text, speed = 30) {
         clearInterval(interval);
         document.removeEventListener('click', handler);
         resolve();
+      }
+
+      // Stop typing sound if the text is fully displayed
+      if (i === text.length) {
+        document.getElementById('typing-sound').pause();
+        document.getElementById('typing-sound').currentTime = 0;
       }
     }, speed);
   });
