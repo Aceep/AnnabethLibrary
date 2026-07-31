@@ -1,6 +1,8 @@
 {
   "name": "annabethlibrary",
   "version": "1.0.0",
+  "description": "Visual novel : un renard explore la bibliothèque d'Annabeth et recueille les recommandations de lecture de 13 dieux grecs.",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -9,9 +11,14 @@
   "devDependencies": {
     "vite": "^5.4.19"
   },
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "visual-novel",
+    "mythologie-grecque",
+    "livres"
+  ],
+  "author": "Aceep",
+  "license": "ISC"
 }
