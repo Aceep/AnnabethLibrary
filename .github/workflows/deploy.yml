@@ -29,7 +29,12 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run format:check
+
+      # Le site Pages est servi sous /AnnabethLibrary/, contrairement au
+      # déploiement Vercel qui est à la racine : voir vite.config.js.
       - run: npm run build
+        env:
+          GITHUB_PAGES: '1'
 
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
