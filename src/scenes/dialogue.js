@@ -1,7 +1,8 @@
 import dialogues from '../data/dialogues.js';
 import bookList from '../data/bookList.js';
 import { appendClosingButtonToModal } from '../components/closingButton.js';
-import runEnding  from './ending.js';
+import runEnding from './ending.js';
+import { playTypingSound, stopTypingSound } from '../audio.js';
 
 const visitedGods = new Set();
 
@@ -70,51 +71,63 @@ if (who === 'owlEnd')
 }
 
 async function displayBooksList() {
-  // display the books list in a modal
   const booksListContainer = document.getElementById('books-list-container');
-  booksListContainer.style.display = 'block';
   booksListContainer.innerHTML = '';
+
   const modal = document.createElement('div');
   modal.classList.add('modal');
+
   const modalContent = document.createElement('div');
   modalContent.classList.add('modal-content');
-  modalContent.innerHTML = '<h2>Liste des livres</h2>';
-  
-  // Create a close button
-  appendClosingButtonToModal(modal, () => {
+
+  const title = document.createElement('h2');
+  title.textContent = 'Liste des livres';
+  modalContent.appendChild(title);
+
+  // Unique porte de sortie de la modale. Le récapitulatif est le dernier
+  // écran interactif : toute fermeture qui n'enchaînerait pas sur la scène
+  // de fin laisserait le joueur sur un écran figé, sans menu ni suite.
+  let closed = false;
+  const closeBookList = () => {
+    if (closed) return;
+    closed = true;
+
     booksListContainer.style.display = 'none';
     document.body.style.overflow = '';
     runEnding();
-  }
-  );
+  };
+
+  appendClosingButtonToModal(modal, closeBookList);
 
   const booksList = document.createElement('ul');
   for (const [god, books] of Object.entries(bookList)) {
     const godItem = document.createElement('li');
-    godItem.classList.add('text-white');
     godItem.textContent = god.toUpperCase();
+
     const booksUl = document.createElement('ul');
-    books.forEach(book => {
+    books.forEach((book) => {
       const bookItem = document.createElement('li');
       bookItem.textContent = book;
       booksUl.appendChild(bookItem);
     });
+
     godItem.appendChild(booksUl);
     booksList.appendChild(godItem);
   }
+
   modalContent.appendChild(booksList);
   modal.appendChild(modalContent);
   booksListContainer.appendChild(modal);
-  booksListContainer.style.display = 'block';
-  document.getElementById('orientation-overlay').style.display = 'none';
+
+  // 'flex' et non 'block' : le centrage du conteneur est défini en CSS.
+  booksListContainer.style.display = 'flex';
   document.body.style.overflow = 'hidden';
-  modal.onclick = (event) => {
-    if (event.target === modal) {
-      booksListContainer.style.display = 'none';
-      document.body.style.overflow = ''; 
-    }
-  }
-  document.body.appendChild(booksListContainer);
+
+  // Clic en dehors de la boîte : le conteneur occupe tout l'écran, c'est lui
+  // qui reçoit l'événement, pas la modale.
+  booksListContainer.onclick = (event) => {
+    if (event.target === booksListContainer) closeBookList();
+  };
 }
 
 async function displayBooks(books) {
@@ -164,32 +177,26 @@ function typeLine(element, text, speed = 30) {
 
     document.addEventListener('click', handler);
 
-    document.getElementById('typing-sound').play();
-  
+    playTypingSound();
+
+    const finish = () => {
+      clearInterval(interval);
+      document.removeEventListener('click', handler);
+      stopTypingSound();
+      resolve();
+    };
+
     const interval = setInterval(() => {
       if (interrupted) {
         element.innerText = text;
-        clearInterval(interval);
-        document.removeEventListener('click', handler);
-        document.getElementById('typing-sound').pause();
-        document.getElementById('typing-sound').currentTime = 0;
-        resolve();
+        finish();
         return;
       }
 
       element.innerText += text[i];
       i++;
-      if (i >= text.length) {
-        clearInterval(interval);
-        document.removeEventListener('click', handler);
-        resolve();
-      }
 
-      // Stop typing sound if the text is fully displayed
-      if (i === text.length) {
-        document.getElementById('typing-sound').pause();
-        document.getElementById('typing-sound').currentTime = 0;
-      }
+      if (i >= text.length) finish();
     }, speed);
   });
 }

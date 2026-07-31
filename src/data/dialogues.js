@@ -32,11 +32,11 @@ const dialogues = {
     background: '/assets/FoxNHera.png',
     books: [
       ['/assets/books/EllesetleFeu-Hera.jpg', `HERA :  Elles et le feu… Ce n’est pas un titre, petit renard, c’est un serment. Chaque femme qu’on a voulu faire taire porte en elle une étincelle. Et moi, Héra, je suis leur flamme souveraine. On me dit jalouse, colérique, mais l’on oublie que je suis la mémoire des injures et la gardienne des serments trahis. Quand les hommes oublient, je rappelle. Et quand ils détruisent, je consume. Voilà pourquoi ce livre me sied : il parle d’elles, donc il parle de moi.  (Eeilos)`],
-      [`assets/books/PenelopeReinedIthaque-Hera.jpg`, `HERA : Dans ce livre, je raconte moi-même l’histoire de Pénélope attendant le retour d’Ulysse tout en essayant de repousser les prétendants. L’histoire raconte comment plusieurs femmes grecques mettent tout en œuvre pour échapper à leur destin. Moi-même, je vois à travers Penelope et Clytemnestre les similitudes dans les failles de mon propre mariage. (Maria Materdei)
+      [`/assets/books/PenelopeReinedIthaque-Hera.jpg`, `HERA : Dans ce livre, je raconte moi-même l’histoire de Pénélope attendant le retour d’Ulysse tout en essayant de repousser les prétendants. L’histoire raconte comment plusieurs femmes grecques mettent tout en œuvre pour échapper à leur destin. Moi-même, je vois à travers Penelope et Clytemnestre les similitudes dans les failles de mon propre mariage. (Maria Materdei)
 `],
       [`/assets/books/LasagefemmedAuschwitz-Hera.jpg`, `HERA : A nouveau une histoire de Femmes, de Mère, de Sœurs, de gardiennes et de guerrières. Ces femmes qui ont trop souffert mais qui trouveront courage et détermination pour mettre au monde des vies. Peut-être étaient-elles protégées par moi ?  (Maria Materdei)
 `],
-        [`assets/books/Circe-Athena.jpg`, `HERA : L’histoire d’une femme seule que tout le monde a rejetée mais qui voit dans sa prison une façon de devenir celle qu’elle a toujours voulu être et de s’affranchir de sa condition de nymphe des fleuves pour devenir une Héroïne.  (Maria Materdei)
+        [`/assets/books/Circe-Athena.jpg`, `HERA : L’histoire d’une femme seule que tout le monde a rejetée mais qui voit dans sa prison une façon de devenir celle qu’elle a toujours voulu être et de s’affranchir de sa condition de nymphe des fleuves pour devenir une Héroïne.  (Maria Materdei)
 `]
     ],
     lines: [
@@ -137,8 +137,8 @@ lines: [
   apollon: {
     background: '/assets/FoxNApollon.png',
     books: [
-      ['assets/books/CALLMEBYYOURNAME-Apollon.jpg', 'APOLLON : L\'action du livre se déroule en Italie en plein été donc le soleil est au rendez-vous ! De plus, Elio joue du piano et avec Oliver, ils se rendent dans des lieux culturels, notamment des sites de fouilles archéologiques et la lecture est un élément central du livre. Enfin, j\'ai trouvé la plume de l\'auteur très poétique, il y a une certaine prose dans son écriture qui est très jolie et qui m\'a émue. J\'ai l\'impression aussi qu\'il y a un côté assez prophétique à leur histoire d\'amour car cela ne peut pas durer éternellement, seulement le temps d\'un été car ce n\'est pas le bon moment mais que ce n\'est pas fini et que leurs chemins se rencontreront de nouveau pour ne plus jamais se quitter. (noemie)'],
-      ['assets/books/LaMaledictiondelOracle-Apollon.jpg', 'APOLLON : une réécriture du mythe de Cassandre, à qui j\'ai attribue le don de dire l’avenir. Ayant refusé mes avances, je l’ai maudit , de sorte que ses prédictions ne soient jamais crues. ( J’ai trop hâte de commencer cette lecture !!, Mama)']
+      ['/assets/books/CALLMEBYYOURNAME-Apollon.jpg', 'APOLLON : L\'action du livre se déroule en Italie en plein été donc le soleil est au rendez-vous ! De plus, Elio joue du piano et avec Oliver, ils se rendent dans des lieux culturels, notamment des sites de fouilles archéologiques et la lecture est un élément central du livre. Enfin, j\'ai trouvé la plume de l\'auteur très poétique, il y a une certaine prose dans son écriture qui est très jolie et qui m\'a émue. J\'ai l\'impression aussi qu\'il y a un côté assez prophétique à leur histoire d\'amour car cela ne peut pas durer éternellement, seulement le temps d\'un été car ce n\'est pas le bon moment mais que ce n\'est pas fini et que leurs chemins se rencontreront de nouveau pour ne plus jamais se quitter. (noemie)'],
+      ['/assets/books/LaMaledictiondelOracle-Apollon.jpg', 'APOLLON : une réécriture du mythe de Cassandre, à qui j\'ai attribue le don de dire l’avenir. Ayant refusé mes avances, je l’ai maudit , de sorte que ses prédictions ne soient jamais crues. ( J’ai trop hâte de commencer cette lecture !!, Mama)']
     ],
 lines: [
   "APOLLON : Je suis Apollon, dieu du soleil, des arts et des oracles.",

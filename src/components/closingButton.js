@@ -1,27 +1,25 @@
-const closeButton = document.createElement('button');
-  closeButton.textContent = '✕';
-  closeButton.style.position = 'absolute';
-  closeButton.style.top = '1rem';
-  closeButton.style.right = '1rem';
-  closeButton.style.fontSize = '1.5rem';
-  closeButton.style.color = 'white';
-  closeButton.style.background = 'transparent';
-  closeButton.style.border = 'none';
-  closeButton.style.cursor = 'pointer';
-
-
+// Fabrique : chaque appel rend un nouveau bouton. Un noeud partagé entre
+// plusieurs modales serait déplacé par le dernier appelant, laissant les
+// précédentes sans moyen de fermeture.
 export function createClosingButton() {
-    return closeButton;
-  }
+  const closeButton = document.createElement('button');
+  closeButton.type = 'button';
+  closeButton.classList.add('closing-button');
+  closeButton.textContent = '✕';
+  closeButton.setAttribute('aria-label', 'Fermer');
+
+  return closeButton;
+}
 
 export function appendClosingButtonToModal(modal, onClick) {
-    const closeButton = createClosingButton();
-    closeButton.onclick = () => {
-        if (onClick) {
-        onClick();
-        }
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-    };
-    modal.appendChild(closeButton);
+  const closeButton = createClosingButton();
+
+  closeButton.onclick = (event) => {
+    event.stopPropagation();
+    if (onClick) onClick();
+  };
+
+  modal.appendChild(closeButton);
+
+  return closeButton;
 }
