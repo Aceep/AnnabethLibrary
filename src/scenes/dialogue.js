@@ -3,6 +3,7 @@ import bookList from '../data/bookList.js';
 import { appendClosingButtonToModal } from '../components/closingButton.js';
 import runEnding from './ending.js';
 import { playTypingSound, stopTypingSound } from '../audio.js';
+import { assetUrl } from '../assets.js';
 
 const visitedGods = new Set();
 
@@ -16,21 +17,20 @@ export async function runDialogue(who) {
 
   if (backgroundElement) {
     backgroundElement.classList.add('fade-out');
-    await new Promise(resolve => setTimeout(resolve, 1000)); 
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 
   backgroundElement.style.display = 'block';
   if (backgroundElement) {
-    backgroundElement.style.backgroundImage = `url(${dialogueData.background})`;
+    backgroundElement.style.backgroundImage = `url(${assetUrl(dialogueData.background)})`;
     backgroundElement.style.backgroundSize = 'cover';
     backgroundElement.style.backgroundPosition = 'center';
   }
 
-
   if (backgroundElement) {
     backgroundElement.classList.remove('fade-out');
     backgroundElement.classList.add('fade-in');
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
     backgroundElement.classList.remove('fade-in');
   }
 
@@ -44,30 +44,37 @@ export async function runDialogue(who) {
     }
   }
 
-
   textContent.textContent = dialogueData.lines[dialogueData.lines.length - 1];
 
+  if (who !== 'intro' && who !== 'owlEnd') {
+    visitedGods.add(who);
 
-if (who !== 'intro' && who !== 'owlEnd') {
-  visitedGods.add(who);
+    const allGods = [
+      'zeus',
+      'hera',
+      'athena',
+      'poseidon',
+      'ares',
+      'hephaistos',
+      'aphrodite',
+      'demeter',
+      'apollon',
+      'artemis',
+      'hermes',
+      'dionysos',
+      'hades',
+    ];
 
-  const allGods = [
-    'zeus', 'hera', 'athena', 'poseidon', 'ares',
-    'hephaistos', 'aphrodite', 'demeter', 'apollon',
-    'artemis', 'hermes', 'dionysos', 'hades'
-  ];
+    const allVisited = allGods.every((god) => visitedGods.has(god));
+    if (allVisited) {
+      await runDialogue('owlEnd');
+      return;
+    }
 
-  const allVisited = allGods.every(god => visitedGods.has(god));
-  if (allVisited) {
-    await runDialogue('owlEnd');
-    return;
+    showGodMenu();
   }
 
-  showGodMenu();
-}
-
-if (who === 'owlEnd') 
-  await displayBooksList();
+  if (who === 'owlEnd') await displayBooksList();
 }
 
 async function displayBooksList() {
@@ -134,16 +141,15 @@ async function displayBooks(books) {
   const img = document.createElement('img');
   img.classList.add('book-item');
 
-img.onclick = (event) => {
-  event.stopPropagation(); 
-  
-  if (img.style.zIndex === '11000') {
-    img.style.zIndex = '9000';
-  } else {
-    img.style.zIndex = '11000';
-  }
+  img.onclick = (event) => {
+    event.stopPropagation();
 
-};
+    if (img.style.zIndex === '11000') {
+      img.style.zIndex = '9000';
+    } else {
+      img.style.zIndex = '11000';
+    }
+  };
 
   const animationContainer = document.getElementById('animation');
   animationContainer.appendChild(img);
@@ -151,7 +157,7 @@ img.onclick = (event) => {
   const descriptionBox = document.getElementById('text-content');
 
   for (const [imgSrc, description] of books) {
-    img.src = imgSrc;
+    img.src = assetUrl(imgSrc);
     img.alt = description;
 
     descriptionBox.textContent = '';
@@ -213,9 +219,19 @@ function waitForClick() {
 
 export function showGodMenu() {
   const gods = [
-    'zeus', 'hera', 'athena', 'poseidon', 'ares',
-    'hephaistos', 'aphrodite', 'demeter', 'apollon',
-    'artemis', 'hermes', 'dionysos', 'hades'
+    'zeus',
+    'hera',
+    'athena',
+    'poseidon',
+    'ares',
+    'hephaistos',
+    'aphrodite',
+    'demeter',
+    'apollon',
+    'artemis',
+    'hermes',
+    'dionysos',
+    'hades',
   ];
 
   const existingMenu = document.querySelector('.menu');

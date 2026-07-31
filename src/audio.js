@@ -2,14 +2,31 @@
 // Les scènes passent par ici plutôt que de construire leurs propres instances :
 // un `new Audio(src)` détaché continue de jouer même après un vidage du DOM.
 
+import { assetUrl } from './assets.js';
+
 const AMBIENT_VOLUME = 0.2;
 
+const AMBIENT_SRC = '/sounds/ambient.mp3';
+const TYPING_SRC = '/sounds/typing.mp4';
+
+// Vite ne réécrit pas l'attribut `src` des balises <audio> en fonction de
+// `base` : renseigné dans le HTML, il pointerait vers la racine du domaine et
+// renverrait un 404 sur un déploiement en sous-chemin. On l'affecte donc ici.
+function mediaElement(id, src) {
+  const element = document.getElementById(id);
+  if (!element) return null;
+
+  if (!element.getAttribute('src')) element.src = assetUrl(src);
+
+  return element;
+}
+
 function ambientElement() {
-  return document.getElementById('ambient-music');
+  return mediaElement('ambient-music', AMBIENT_SRC);
 }
 
 function typingElement() {
-  return document.getElementById('typing-sound');
+  return mediaElement('typing-sound', TYPING_SRC);
 }
 
 export function playAmbientMusic() {
