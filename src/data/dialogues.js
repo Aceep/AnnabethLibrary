@@ -1,13 +1,13 @@
 const dialogues = {
   intro: {  
-    background: '/assets/intro/AnnabethLibrary.png',
+    background: '/assets/intro/AnnabethLibrary.webp',
   lines: [
     'FOXY : Oh quelle librarie bien cachee ! Je me demande ce que je vais y trouver...',
     `FOXY : La porte est entre-ouverte, je vais pouvoir y entrer sans me faire remarquer.`
   ],
 },
   owlIntro: {
-    background: '/assets/FoxNOwl.png',
+    background: '/assets/FoxNOwl.webp',
     lines: [
       "OWL : Bienvenue dans la bibliothèque d'Annabeth, jeune renard.",
       "OWL : Je suis Annabeth le hibou, gardien des secrets anciens. Qu'est-ce qui t'amène ici ?",
@@ -16,7 +16,7 @@ const dialogues = {
     ],
   },
   zeus: {
-    background: '/assets/FoxNZeus.png',
+    background: '/assets/FoxNZeus.webp',
     books: [
       ['/assets/books/La-Guerre-du-pavot-Zeus.jpg', 'ZEUS : Pour me representer quoi de plus approprié que la Guerre du Pavot de R.F Kuang (c\'est le début de la propagande oui oui) avec une héroïne qui est constamment en recherche de puissance à travers l\'invocation du plus fort et destructeur des dieux du panthéon. La puissance est la pierre angulaire du livre ; c\'est ce qui va guider ses choix. (Loolis)']
     ], 
@@ -29,7 +29,7 @@ const dialogues = {
     ],
   },
   hera: {
-    background: '/assets/FoxNHera.png',
+    background: '/assets/FoxNHera.webp',
     books: [
       ['/assets/books/EllesetleFeu-Hera.jpg', `HERA :  Elles et le feu… Ce n’est pas un titre, petit renard, c’est un serment. Chaque femme qu’on a voulu faire taire porte en elle une étincelle. Et moi, Héra, je suis leur flamme souveraine. On me dit jalouse, colérique, mais l’on oublie que je suis la mémoire des injures et la gardienne des serments trahis. Quand les hommes oublient, je rappelle. Et quand ils détruisent, je consume. Voilà pourquoi ce livre me sied : il parle d’elles, donc il parle de moi.  (Eeilos)`],
       [`/assets/books/PenelopeReinedIthaque-Hera.jpg`, `HERA : Dans ce livre, je raconte moi-même l’histoire de Pénélope attendant le retour d’Ulysse tout en essayant de repousser les prétendants. L’histoire raconte comment plusieurs femmes grecques mettent tout en œuvre pour échapper à leur destin. Moi-même, je vois à travers Penelope et Clytemnestre les similitudes dans les failles de mon propre mariage. (Maria Materdei)
@@ -49,7 +49,7 @@ const dialogues = {
 
   },
   athena: {
-    background: '/assets/FoxNAthena.png',
+    background: '/assets/FoxNAthena.webp',
     books: [
       ['/assets/books/FourthWings-Athena.jpg', 'ATHENA : Violet est mon portrait parfait car dans les deux tomes de la saga de Rebecca puisqu’elle intègre le cadrant des cavaliers et qu’elle se prépare à la guerre (Asiley)'],
       ['/assets/books/Circe-Athena.jpg', 'ATHENA : Circé est une femme intelligente qui doit ruser pour que les hommes respectent son île et qu/’elle ne soit pas violenté.Elle fabrique également tout elle même grace aux ressources illimitées qu’elle possède. Elle en a aussi vécu des vertes et des pas mûres donc niveau sagesse elle est plutôt bien haha (killumani)']
@@ -64,7 +64,7 @@ lines: [
 
   },
   poseidon: {
-    background: '/assets/FoxNPoseidon.png',
+    background: '/assets/FoxNPoseidon.webp',
     books: [
       ['/assets/books/Aatea-Poseidon.jpg', 'POSEIDON :  Aatea... Ce livre est une lame de fond. Il parle comme moi, avec la langue des marées et le souffle des tempêtes. Il connaît la morsure du sel, la violence des ruptures, la beauté cruelle des abysses. Comme moi, il engloutit, il emporte, il détruit pour révéler. Ceux qui s’y aventurent doivent savoir nager dans la douleur, car les eaux d’Aatea, comme les miennes, ne pardonnent pas.  (Rose Darcy)'],
       ['/assets/books/LFDDLM-Poseidon.jpg', 'POSEIDON : Une quête, à la rencontre du dieu de la mer. (Aruhi)']
@@ -78,7 +78,7 @@ lines: [
   ],
   },
   ares: {
-    background: '/assets/FoxNAres.png',
+    background: '/assets/FoxNAres.webp',
     books: [
       ['/assets/books/BattleRoyale-Ares.jpg', 'ARES : Le titre parle de lui-même… Des collégiens kidnappés et envoyés sur une île pour s’entre-tuer jusqu’à ce qu’il n’en reste plus qu’un. Les morts dans le roman sont particulièrement violentes et sanglantes. (LonelyRatGirl)']
     ],
@@ -92,7 +92,7 @@ lines: [
 
   },
   hephaistos: {
-    background: '/assets/FoxNHephaistos.png',
+    background: '/assets/FoxNHephaistos.webp',
     books: [
       ['/assets/books/JeReinventeraiLaPluie-Hephaistos.jpg', 'HEPHAISTOS : Le personnage principal est souffleur de verre. (Vicky)']
     ],
@@ -106,7 +106,7 @@ lines: [
 
   },
   aphrodite: {
-    background: '/assets/FoxNAphrodite.png',
+    background: '/assets/FoxNAphrodite.webp',
     books: [
       ['/assets/books/LePalaisdEros-Aphrodite.jpg', 'APHRODITE : Ce livre est une réécriture/reinterpretation du mythe de Éros et Psyché. Dans ce livre Psyché découvre les plaisirs dit interdit de l’homosexualité avec éros qui bien que présenté.e comme non binaire est désignée comme lesbienne. De plus, je suis est un personnage important dans l’histoire. (hana_artiste)'],
       ['/assets/books/LesLiaisonsDangereuses-Aphrodite.webp', 'APHRODITE :  Les Liaisons dangereuses… Voilà un livre qui comprend mon art. Il tisse les désirs comme des pièges, transforme les mots en caresses ou en lames. L’amour y est jeu, pouvoir, manipulation — n’est-ce pas là mon royaume ? Ce roman, c’est mon miroir : séduisant, cruel, et infiniment humain.  (Chaussette)']
@@ -121,7 +121,7 @@ lines: [
 
   },
   demeter: {
-    background: '/assets/FoxNDemeter.png',
+    background: '/assets/FoxNDemeter.webp',
     books: [
       ['/assets/books/LesMurmuresDeLaTerre-Demeter.jpg', 'DEMETER : Le personnage principal (Alex) fait de la permaculture, c\'est une technique d\'agriculture qui consiste à protéger les écosystèmes naturels et à récupérer seulement ce que la terre veut bien donner. (Vicky)']
     ],
@@ -135,7 +135,7 @@ lines: [
 
   },
   apollon: {
-    background: '/assets/FoxNApollon.png',
+    background: '/assets/FoxNApollon.webp',
     books: [
       ['/assets/books/CALLMEBYYOURNAME-Apollon.jpg', 'APOLLON : L\'action du livre se déroule en Italie en plein été donc le soleil est au rendez-vous ! De plus, Elio joue du piano et avec Oliver, ils se rendent dans des lieux culturels, notamment des sites de fouilles archéologiques et la lecture est un élément central du livre. Enfin, j\'ai trouvé la plume de l\'auteur très poétique, il y a une certaine prose dans son écriture qui est très jolie et qui m\'a émue. J\'ai l\'impression aussi qu\'il y a un côté assez prophétique à leur histoire d\'amour car cela ne peut pas durer éternellement, seulement le temps d\'un été car ce n\'est pas le bon moment mais que ce n\'est pas fini et que leurs chemins se rencontreront de nouveau pour ne plus jamais se quitter. (noemie)'],
       ['/assets/books/LaMaledictiondelOracle-Apollon.jpg', 'APOLLON : une réécriture du mythe de Cassandre, à qui j\'ai attribue le don de dire l’avenir. Ayant refusé mes avances, je l’ai maudit , de sorte que ses prédictions ne soient jamais crues. ( J’ai trop hâte de commencer cette lecture !!, Mama)']
@@ -150,7 +150,7 @@ lines: [
 
   },
   artemis: {
-    background: '/assets/FoxNArtemis.png',
+    background: '/assets/FoxNArtemis.webp',
     books: [
       ['/assets/books/PleinCiel-Artemis.jpg', 'ARTEMIS : Le personnage principal Ivoire est souvent associé à la lune à cause de son teint pâle ( et d’autres mais spoil ) et c’est même un de ces prénoms, ce livre fait penser à moi car je suis une des trois divinités de la lune et j\'ai un très grand lien avec celle-ci. (Yuna)']
     ],
@@ -164,7 +164,7 @@ lines: [
 
   },
   hermes: {
-    background: '/assets/FoxNHermes.png',
+    background: '/assets/FoxNHermes.webp',
     books: [
       ['/assets/books/Daevabad-Hermes.webp', 'HERMES : Je ressemble beaucoup au personnage de Nahri. En effet, c\'est une voleuse qui aime l\'argent et aime marchander. Je suis le dieu du commerce et des voleurs. Je suis comme Nahri considéré comme intelligent, espiègle.De plus, je suis le dieu des voyages et durant tout le livre, on suit le voyage de Nahri que ça soit au Caire, à Daevabad ou encore dans le désert. (Angel)'],
       ['/assets/books/Bride-Hermes.jpg', 'HERMES : Bride, un choix surprenant, mais qui me plaît. Entre les lignes de ce pacte entre ennemis, il y a la vitesse des échanges, la vivacité des esprits, et ce frisson d’ironie qui court comme un éclair — tout ce que j’aime. Car moi aussi, je suis le messager des accords dangereux, le voleur de cœurs et de vérités. (bea)']
@@ -179,7 +179,7 @@ lines: [
 
   },
   dionysos: {
-    background: '/assets/FoxNDionysos.png',
+    background: '/assets/FoxNDionysos.webp',
     books: [
       ['/assets/books/Leprincecruel-Dionysos.jpg', 'DIONYSOS : Cardan est un personnage qui me ressemble beaucoup. Il aime faire la fête, boire, provoquer les autres et cacher ses vrais sentiments. Il est à la fois séduisant, dangereux et changeant. Comme Dionysos, il cherche sa place en jouant avec les règles. (Mathou)']
     ],
@@ -193,7 +193,7 @@ lines: [
 
   },
   hades: {
-    background: '/assets/FoxNHades.png',
+    background: '/assets/FoxNHades.webp',
     books: [
       ['/assets/books/COLLECTEDREGRETSOFCLOVER-Hades.jpg', 'HADES : La vie de Clover, protagoniste de l\'histoire tourne autour d\'une seule chose : la mort. Clover est en effet une doula de fin de vie (ou thanadoula). Alors que je règne sur le royaume des morts avec autorité, Clover, elle, accompagne les mourants et les aide à accepter leur départ. (saly)'],
       ['/assets/books/LeGrandvoyage-Hades.jpg', 'HADES : L’intrigue du livre tourne autour d’une légende bretonne, celle de l’Ankou. L’Ankou vient vous chercher à votre dernier souffle et vous emmène, dans sa charrette, au pays des morts, une sorte de purgatoire. Un jeune garçon et ses amis décident de s’y rendre afin d’y retrouver la mère du personnage principal. C’est un livre jeunesse qui parle de la perte d’un être cher et du deuil des proches. (Hasa)']
@@ -208,7 +208,7 @@ lines: [
 
   },
   owlEnd: {
-    background: '/assets/FoxNOwl.png',
+    background: '/assets/FoxNOwl.webp',
     lines: [
       "OWL : Tu as rencontré les dieux, jeune renard. As-tu trouvé ce que tu cherchais ?",
       "OWL : Les dieux sont puissants, mais n'oublie pas que la véritable force réside en toi.",
