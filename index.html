@@ -2,7 +2,12 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover : sans lui, les env(safe-area-inset-*) valent 0 et
+         la boîte de dialogue passe sous l'encoche / la barre d'accueil. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>Annabeth Library</title>
     <link rel="stylesheet" href="/style.css" />
   </head>

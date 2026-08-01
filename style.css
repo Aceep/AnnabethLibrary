@@ -2,8 +2,12 @@ body,
 html {
   margin: 0;
   padding: 0;
-  height: auto;
-  overflow: auto;
+  /* Hauteur figée + scroll interdit : la page n'a aucun contenu dans le flux
+     (tout est en position absolute/fixed). Laisser le document défiler ne
+     produisait que du tremblement quand la barre d'URL mobile se replie. */
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
   background: black;
   display: flex;
   justify-content: center;
@@ -16,10 +20,12 @@ html {
 
 #animation {
   display: none;
-  position: absolute;
-  overflow-y: auto;
-  width: 100lvw;
-  height: 100lvh;
+  position: fixed;
+  overflow: hidden;
+  /* dvh/dvw et non lvh/lvw : `lv*` correspond au viewport barre d'URL repliée,
+     donc la scène débordait sous la barre tant qu'elle était déployée. */
+  width: 100dvw;
+  height: 100dvh;
   top: 0;
   left: 0;
   background-size: cover;
@@ -54,19 +60,23 @@ html {
   -ms-user-select: none;
 }
 
+/* Les env(safe-area-inset-*) valent 0 hors appareil à encoche : les calc()
+   ci-dessous rendent donc exactement les valeurs d'origine sur desktop. En
+   paysage, l'encoche et les coins arrondis mordent sur les bords gauche/droit
+   et la barre d'accueil sur le bas. */
 @media screen and (orientation: landscape) and (max-width: 1000px) {
   .dialogue-box {
-    bottom: 20px;
-    left: 10%;
-    width: 80%;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    left: calc(10% + env(safe-area-inset-left));
+    width: calc(80% - env(safe-area-inset-left) - env(safe-area-inset-right));
   }
 }
 
 @media screen and (orientation: landscape) and (min-width: 1000px) {
   .dialogue-box {
-    bottom: 100px;
-    left: 25%;
-    width: 50%;
+    bottom: calc(100px + env(safe-area-inset-bottom));
+    left: calc(25% + env(safe-area-inset-left));
+    width: calc(50% - env(safe-area-inset-left) - env(safe-area-inset-right));
   }
 }
 
@@ -79,9 +89,11 @@ html {
 
 .menu {
   user-select: none;
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  /* fixed et non absolute : le body ne défile plus, un menu plus haut que le
+     viewport serait rogné sans recours. */
+  position: fixed;
+  top: calc(20px + env(safe-area-inset-top));
+  right: calc(20px + env(safe-area-inset-right));
   background-color: antiquewhite;
   padding: 20px;
   border-radius: 5px;
@@ -89,7 +101,15 @@ html {
   flex-direction: column;
   gap: 10px;
   z-index: 10;
-  max-width: 90vw;
+  max-width: calc(100dvw - 40px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  /* Filet de sécurité : quelle que soit la mise en colonnes choisie plus bas,
+     le menu ne peut jamais dépasser du viewport. Remplace le correctif que le
+     JS appliquait après coup (mesure post-rendu, donc un frame de décalage). */
+  max-height: calc(
+    100dvh - 40px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+  );
+  overflow-y: auto;
+  overscroll-behavior: contain;
   box-sizing: border-box;
 }
 
@@ -103,8 +123,8 @@ html {
 
 @media screen and (orientation: landscape) {
   .menu {
-    top: 20px;
-    right: 50px;
+    top: calc(20px + env(safe-area-inset-top));
+    right: calc(50px + env(safe-area-inset-right));
   }
 }
 
@@ -117,10 +137,63 @@ html {
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  /* Repris du JS, qui le posait en style inline sur chaque bouton. */
+  white-space: nowrap;
+  min-height: 44px;
+  /* Supprime le délai de 300ms et le flash bleu au tap. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.menu button:hover {
+/* (hover: hover) exclut le tactile : sans ce garde-fou, le survol simulé au
+   tap reste collé sur le dernier bouton touché jusqu'au tap suivant. */
+@media (hover: hover) {
+  .menu button:hover {
+    background: #b0b0b0;
+  }
+}
+
+/* Le tactile n'ayant plus de :hover, il lui faut un retour visuel au contact. */
+.menu button:active {
   background: #b0b0b0;
+}
+
+/* Paysage sur téléphone : ~390px de hauteur utile pour 13 boutons, soit ~660px
+   en une seule colonne. La colonne unique ne tient sur AUCUN téléphone — on
+   répartit sur deux colonnes de 7 plutôt que d'imposer un défilement.
+   Placé après les règles de base : à spécificité égale, c'est l'ordre qui
+   tranche, et ce bloc doit gagner. */
+@media screen and (orientation: landscape) and (max-height: 600px) {
+  .menu {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Largeur figée : la boîte de dialogue s'en sert comme butée (voir plus
+       bas). Une largeur dictée par le contenu désynchroniserait les deux. */
+    width: 292px;
+    gap: 8px;
+    padding: 12px;
+    top: calc(12px + env(safe-area-inset-top));
+    right: calc(12px + env(safe-area-inset-right));
+    max-height: calc(
+      100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+  }
+
+  .menu button {
+    padding: 8px 10px;
+    font-size: 0.9375rem;
+    min-height: 36px;
+  }
+
+  /* Menu et dernière réplique sont affichés en même temps, et en paysage
+     téléphone il n'y a pas assez de hauteur pour les empiler : la boîte
+     s'arrête donc au bord du menu tant qu'il est ouvert. Les longues critiques
+     de livres, elles, s'affichent menu fermé et gardent la pleine largeur. */
+  body:has(.menu) .dialogue-box {
+    left: calc(16px + env(safe-area-inset-left));
+    right: calc(316px + env(safe-area-inset-right));
+    width: auto;
+  }
 }
 
 /* --- Couverture de livre affichée pendant un dialogue -------------------- */
@@ -147,8 +220,11 @@ html {
   justify-content: center;
   align-items: center;
   z-index: 10000;
-  padding: 2rem;
+  box-sizing: border-box;
+  padding: calc(2rem + env(safe-area-inset-top)) calc(2rem + env(safe-area-inset-right))
+    calc(2rem + env(safe-area-inset-bottom)) calc(2rem + env(safe-area-inset-left));
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .modal {
@@ -156,10 +232,27 @@ html {
   background-color: #1e1e1e;
   border-radius: 1rem;
   padding: 2rem;
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 90dvw;
+  max-height: 90dvh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Paysage téléphone : 2rem de marge sur le conteneur + 2rem sur la modale
+   mangeaient l'essentiel des ~390px de hauteur disponibles. */
+@media screen and (max-height: 480px) {
+  #books-list-container {
+    padding: calc(0.75rem + env(safe-area-inset-top))
+      calc(0.75rem + env(safe-area-inset-right))
+      calc(0.75rem + env(safe-area-inset-bottom))
+      calc(0.75rem + env(safe-area-inset-left));
+  }
+
+  .modal {
+    padding: 1.25rem;
+    max-height: 100%;
+  }
 }
 
 .modal-content {
@@ -180,17 +273,31 @@ html {
 
 .closing-button {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  /* Cible tactile de 44px : le glyphe seul faisait ~20px de côté. */
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.5rem;
   line-height: 1;
   color: white;
   background: transparent;
   border: none;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.closing-button:hover {
+@media (hover: hover) {
+  .closing-button:hover {
+    color: #b0b0b0;
+  }
+}
+
+.closing-button:active {
   color: #b0b0b0;
 }
 
@@ -201,8 +308,8 @@ html {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   background-color: rgba(0, 0, 0, 0.8);
   justify-content: center;
   align-items: center;
@@ -211,6 +318,16 @@ html {
   font-size: 2rem;
   z-index: 10000;
   cursor: pointer;
+  box-sizing: border-box;
+  padding: calc(1rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right))
+    calc(1rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
+}
+
+/* 2rem sur un téléphone en paysage produit un pavé de texte qui déborde. */
+@media screen and (max-height: 480px) {
+  #orientation-overlay {
+    font-size: 1.25rem;
+  }
 }
 
 @media screen and (orientation: portrait) {
