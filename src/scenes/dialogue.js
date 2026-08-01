@@ -243,7 +243,6 @@ export function showGodMenu() {
   gods.forEach((god) => {
     const btn = document.createElement('button');
     btn.textContent = god.toUpperCase();
-    btn.style.whiteSpace = 'nowrap';
     btn.onclick = async () => {
       menu.remove();
       await runDialogue(god);
@@ -251,17 +250,9 @@ export function showGodMenu() {
     menu.appendChild(btn);
   });
 
+  // Le débordement est traité en CSS (colonnes multiples en paysage court,
+  // max-height/overflow en dernier recours). L'ancien correctif mesurait le
+  // menu après rendu, ce qui laissait passer un frame mal placé et ne
+  // réagissait pas aux rotations ultérieures.
   document.body.appendChild(menu);
-
-  setTimeout(() => {
-    const rect = menu.getBoundingClientRect();
-    const overflowX = rect.right > window.innerWidth;
-    const overflowY = rect.bottom > window.innerHeight;
-
-    if (overflowX || overflowY) {
-      menu.style.maxHeight = '80vh';
-      menu.style.overflowY = 'auto';
-      menu.style.right = '10px';
-    }
-  }, 0);
 }
